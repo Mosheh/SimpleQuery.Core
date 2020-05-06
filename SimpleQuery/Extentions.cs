@@ -109,7 +109,10 @@ namespace SimpleQuery
             }
             else
             {
+                
                 var insertCommand = scripBuilder.GetInsertCommand<T>(model, includeKey);
+                if (scripBuilder.DbServerType == Domain.Data.DbServerType.SqlServer)
+                    insertCommand =  "set dateformat YMD; " + insertCommand;                    
 
                 if (dbTransaction != null) command.Transaction = dbTransaction;
 

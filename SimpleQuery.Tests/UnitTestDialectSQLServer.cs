@@ -35,7 +35,7 @@ namespace SimpleQuery.Tests
             var cliente = new Cliente() { Id = 1, Nome = "Moisés", Ativo = true, TotalPedidos = 20, ValorTotalNotasFiscais = 2000.95, Credito = 10, UltimoValorDeCompra = 1000.95m };
 
             var sqlDelete = builder.GetInsertCommand<Cliente>(cliente);
-            var resultadoEsperado = "insert into [Cliente] ([Nome], [Ativo], [TotalPedidos], [ValorTotalNotasFiscais], [Credito], [UltimoValorDeCompra]) values ('Moisés', 1, 20, 2000.95, 10, 1000.95)";
+            var resultadoEsperado = "set dateformat YDM;insert into [Cliente] ([Nome], [Ativo], [TotalPedidos], [ValorTotalNotasFiscais], [Credito], [UltimoValorDeCompra]) values ('Moisés', 1, 20, 2000.95, 10, 1000.95)";
 
             Assert.AreEqual(resultadoEsperado, sqlDelete);
         }
@@ -111,7 +111,7 @@ namespace SimpleQuery.Tests
         [TestMethod]
         public void TestSelectWithWherePrimitiveTypesSqlServer()
         {
-            var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["sqlserver"].ConnectionString);
+            var connection = new SqlConnection(ConnectionStringReader.GetSqlServerConnstring());
             connection.Open();
 
             using (var scope = new TransactionScope())
@@ -155,7 +155,7 @@ namespace SimpleQuery.Tests
         [TestMethod]
         public void TestInsertOperationSqlServer()
         {
-            var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["sqlserver"].ConnectionString);
+            var connection = new SqlConnection(ConnectionStringReader.GetSqlServerConnstring());
             connection.Open();
 
             var trans = connection.BeginTransaction();
@@ -178,7 +178,7 @@ namespace SimpleQuery.Tests
         [TestMethod]
         public void TestInsertOperationSqlServerNoEntityKey()
         {
-            var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["sqlserver"].ConnectionString);
+            var connection = new SqlConnection(ConnectionStringReader.GetSqlServerConnstring());
             connection.Open();
 
             var trans = connection.BeginTransaction();
@@ -201,11 +201,11 @@ namespace SimpleQuery.Tests
         [TestMethod]
         public void TestInsertOperationWithDatetimeSqlServer()
         {
-            var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["sqlserver"].ConnectionString);
+            var connection = new SqlConnection(ConnectionStringReader.GetSqlServerConnstring());
             connection.Open();
 
 
-            using (var conn = new SqlConnection(ConfigurationManager.ConnectionStrings["sqlserver"].ConnectionString))
+            using (var conn = new SqlConnection(ConnectionStringReader.GetSqlServerConnstring()))
             {
                 conn.Open();
                 var trans = conn.BeginTransaction();
@@ -229,7 +229,7 @@ namespace SimpleQuery.Tests
         [TestMethod]
         public void TestUpdateOperationWithDatetimeSqlServer()
         {
-            var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["sqlserver"].ConnectionString);
+            var connection = new SqlConnection(ConnectionStringReader.GetSqlServerConnstring());
             connection.Open();
 
             using (var transaction = new TransactionScope())
@@ -256,7 +256,7 @@ namespace SimpleQuery.Tests
         [TestMethod]
         public void TestSelectOperationSqlServer()
         {
-            var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["sqlserver"].ConnectionString);
+            var connection = new SqlConnection(ConnectionStringReader.GetSqlServerConnstring());
             connection.Open();
 
             using (var scope = new TransactionScope())
@@ -284,7 +284,7 @@ namespace SimpleQuery.Tests
                 }
             }
         }
-        public string connstring => ConfigurationManager.ConnectionStrings["sqlserver"].ConnectionString;
+        public string connstring => ConnectionStringReader.GetSqlServerConnstring();
 
 
         public void SaveCustomer()
@@ -329,7 +329,7 @@ namespace SimpleQuery.Tests
 
             using (var tran = new TransactionScope())
             {
-                using (var conn = new SqlConnection(ConfigurationManager.ConnectionStrings["sqlserver"].ConnectionString))
+                using (var conn = new SqlConnection(ConnectionStringReader.GetSqlServerConnstring()))
                 {
                     var createTableScript = conn.GetScriptBuild().GetCreateTableCommand<Carrier>();
                     conn.Execute(createTableScript);
@@ -352,7 +352,7 @@ namespace SimpleQuery.Tests
             var updateDate = new DateTime(2019, 07, 25);
             using (var tran = new TransactionScope())
             {
-                using (var conn = new SqlConnection(ConfigurationManager.ConnectionStrings["sqlserver"].ConnectionString))
+                using (var conn = new SqlConnection(ConnectionStringReader.GetSqlServerConnstring()))
                 {
                     var createTableScript = conn.GetScriptBuild().GetCreateTableCommand<Carrier>();
                     conn.Execute(createTableScript);

@@ -105,6 +105,8 @@ namespace SimpleQuery.Data.Dialects
             }
 
             var sql = strBuilderSql.ToString();
+            if (this.DbServerType == DbServerType.SqlServer)
+                sql = "set dateformat YMD;" + sql;
             return sql;
         }
 
