@@ -1,19 +1,18 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sap.Data.Hana;
 using SimpleQuery.Data.Dialects;
 using SimpleQuery.Domain.Data.Dialects;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Configuration;
 using System.Linq;
-using System.Text;
 
 namespace SimpleQuery.Tests
 {
     [TestClass]
     public class UnitTestDialectHana
     {
+
         [TestMethod]
         public void TestHanaDeleteScript()
         {
@@ -30,8 +29,9 @@ namespace SimpleQuery.Tests
         [TestMethod]
         public void TestInsertOperationWithAttributeTableHana()
         {
-            var hanaConnection = System.Data.Common.DbProviderFactories.GetFactory("Sap.Data.Hana").CreateConnection();
-            hanaConnection .ConnectionString =  ConfigurationManager.ConnectionStrings["hana"].ConnectionString;
+            var hanaConnection = new HanaConnection();
+            hanaConnection.ConnectionString = ConfigurationExtensions.GetConnectionString(ConnectionStringReader.GetConfiguration(), "hana");
+
             hanaConnection.Open();
             var trans = hanaConnection.BeginTransaction();
             using (var conn = hanaConnection)
@@ -86,7 +86,7 @@ namespace SimpleQuery.Tests
 
             var cliente = new Cliente() { Id = 1, Nome = "Moisés", Ativo = true, TotalPedidos = 55, ValorTotalNotasFiscais = 1000.55, Credito = 2000.53m, UltimoValorDeCompra = 1035.22m };
 
-            var whereScript =  builder.GetWhereCommand<Cliente>(c=>c.Id == 1);
+            var whereScript = builder.GetWhereCommand<Cliente>(c => c.Id == 1);
             var resultadoEsperado = "where (\"Id\" = 1)";
 
             Assert.AreEqual(resultadoEsperado, whereScript);
@@ -138,7 +138,7 @@ namespace SimpleQuery.Tests
 
             var cliente = new Cliente() { Id = 1, Nome = "Moisés", Ativo = true };
 
-            var selectWithWhereCommand = builder.GetSelectCommand<Cliente>(cliente, c=>c.Id == 1);
+            var selectWithWhereCommand = builder.GetSelectCommand<Cliente>(cliente, c => c.Id == 1);
             var resultadoEsperado = "select \"Id\", \"Nome\", \"Ativo\", \"TotalPedidos\", \"ValorTotalNotasFiscais\", \"Credito\", \"UltimoValorDeCompra\" from \"Cliente\" where (\"Id\" = 1)";
 
             Assert.AreEqual(resultadoEsperado, selectWithWhereCommand);
@@ -147,8 +147,9 @@ namespace SimpleQuery.Tests
         [TestMethod]
         public void TestInsertOperationHana()
         {
-            var hanaConnection = System.Data.Common.DbProviderFactories.GetFactory("Sap.Data.Hana").CreateConnection();
-            hanaConnection.ConnectionString = ConfigurationManager.ConnectionStrings["hana"].ConnectionString;
+            var hanaConnection = new HanaConnection();
+            hanaConnection.ConnectionString = ConfigurationExtensions.GetConnectionString(ConnectionStringReader.GetConfiguration(), "hana");
+
             hanaConnection.Open();
             var trans = hanaConnection.BeginTransaction();
             using (var conn = hanaConnection)
@@ -171,8 +172,9 @@ namespace SimpleQuery.Tests
         [TestMethod]
         public void TestSelectOperationHana()
         {
-            var hanaConnection = System.Data.Common.DbProviderFactories.GetFactory("Sap.Data.Hana").CreateConnection();
-            hanaConnection.ConnectionString = ConfigurationManager.ConnectionStrings["hana"].ConnectionString;
+            var hanaConnection = new HanaConnection();
+            hanaConnection.ConnectionString = ConfigurationExtensions.GetConnectionString(ConnectionStringReader.GetConfiguration(), "hana");
+
             hanaConnection.Open();
             var trans = hanaConnection.BeginTransaction();
             using (var conn = hanaConnection)
