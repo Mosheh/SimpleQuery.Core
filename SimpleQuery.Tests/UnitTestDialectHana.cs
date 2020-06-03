@@ -151,8 +151,9 @@ namespace SimpleQuery.Tests
         [TestMethod]
         public void TestInsertOperationHana()
         {
+
             var hanaConnection = System.Data.Common.DbProviderFactories.GetFactory("Sap.Data.Hana").CreateConnection();
-            hanaConnection.ConnectionString = ConfigurationManager.ConnectionStrings["hana"].ConnectionString;
+            hanaConnection.ConnectionString = ConnectionStringReader.GetSqlServerConnstring();
             hanaConnection.Open();
             var trans = hanaConnection.BeginTransaction();
             using (var conn = hanaConnection)
@@ -179,7 +180,7 @@ namespace SimpleQuery.Tests
 
             var cliente = new Employee() { Id = 1, Name = "Moisés", Age = 25 };
             var hanaConnection = new HanaConnection();
-            hanaConnection.ConnectionString = ConfigurationManager.ConnectionStrings["hana"].ConnectionString;
+            hanaConnection.ConnectionString = ConnectionStringReader.GetConnstring("hana");
             hanaConnection.Open();
             var trans = hanaConnection.BeginTransaction();
 
@@ -191,6 +192,8 @@ namespace SimpleQuery.Tests
             var employeeFromDatabase = hanaConnection.GetAll<Employee>();
 
             Assert.AreEqual(1, employeeFromDatabase.Count());
+
+            hanaConnection.Execute("drop table \"Employee\"");
         }
 
         [TestMethod]

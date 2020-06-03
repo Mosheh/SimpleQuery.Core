@@ -124,6 +124,12 @@ namespace SimpleQuery.Data.Dialects
                 return Convert.ToDouble(item.GetValue(obj)).ToString(nfiDecimal);
             else if (value is DateTime)
                 return $"'{ Convert.ToDateTime(value).ToString("yyyy-MM-dd")}'";
+            else if (value is Int16)
+                return Convert.ToInt16(value);
+            else if (value is Int32)
+                return Convert.ToInt32(value);
+            else if (value is Int64)
+                return Convert.ToInt64(value);
             return ((bool)item.GetValue(obj)) == true ? 1 : 0;
         }
     }

@@ -28,7 +28,17 @@ namespace SimpleQuery.Tests
               config, "sqlserver");
 
             return connectionstring;
-        }        
-        
+        }
+
+        public static string GetConnstring(string connName)
+        {
+            var config = GetConfiguration();
+
+            var connectionstring = ConfigurationExtensions.GetConnectionString(
+              config, connName);
+
+            return connectionstring;
+        }
+
     }
 }
