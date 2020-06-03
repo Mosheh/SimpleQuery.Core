@@ -217,6 +217,8 @@ namespace SimpleQuery.Data.Dialects
                     return "INTEGER not null";
                 case "Int64":
                     return "BIGINT";
+                case "Int16":
+                    return "SMALLINT";
                 case "Byte[]":
                     return "VARBINARY";
                 case "Boolean":
@@ -230,6 +232,8 @@ namespace SimpleQuery.Data.Dialects
                 case "Nullable`1":
                     if (item.PropertyType.AssemblyQualifiedName.Contains("System.Int32"))
                         return "INTEGER";
+                    else if (item.PropertyType.AssemblyQualifiedName.Contains("System.Int16"))
+                        return "SMALLINT";
                     else if (item.PropertyType.AssemblyQualifiedName.Contains("System.Boolean"))
                         return "BOOLEAN";
                     else if (item.PropertyType.AssemblyQualifiedName.Contains("System.Decimal"))
