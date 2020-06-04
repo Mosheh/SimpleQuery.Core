@@ -109,6 +109,8 @@ namespace SimpleQuery.Data.Dialects
         {
             var entityName = GetEntityName<T>();
             var propertyKey = GetKeyProperty(model.GetType().GetProperties());
+            if (propertyKey == null)
+                return null;
             var schemaNameReader = ExecuteReader("select current_schema from DUMMY", dbConnection);
             schemaNameReader.Read();
             var schemaName = schemaNameReader.GetString(0); schemaNameReader.Close();
