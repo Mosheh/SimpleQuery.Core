@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.SQLite;
 using System.IO;
 using System.Linq;
@@ -51,6 +52,8 @@ namespace SimpleQuery.Tests
             GC.Collect();
             GC.WaitForPendingFinalizers();
         }
+
+
 
         [TestMethod]
         public void SqliteInsertModel()
@@ -240,4 +243,5 @@ namespace SimpleQuery.Tests
             GC.WaitForPendingFinalizers();
         }
     }
+
 }

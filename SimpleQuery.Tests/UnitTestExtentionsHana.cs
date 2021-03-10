@@ -150,7 +150,7 @@ namespace SimpleQuery.Tests
             conn.Execute(createTableScript);
             var id = conn.InsertReturningId<Undertaking>(undertaking);
 
-            var undertakings= conn.Select<Undertaking>(c=> c.Id == 1);
+            var undertakings = conn.Select<Undertaking>(c => c.Id == 1);
 
             Assert.AreEqual(1, undertakings.Count());
             Assert.AreEqual("TRUMP TOWER", undertakings.ToList()[0].Name);
@@ -180,21 +180,34 @@ namespace SimpleQuery.Tests
         [TestMethod]
         public void SapHanaSelectContractWhereName()
         {
-            var conn = System.Data.Common.DbProviderFactories.GetFactory("Sap.Data.Hana").CreateConnection();
-            conn.ConnectionString = ConfigurationManager.ConnectionStrings["hana"].ConnectionString;
-            var scriptBuilder = conn.GetScriptBuild();
+            var conn = new Sap.Data.Hana.HanaConnection();
+            conn.ConnectionString = ConnectionStringReader.GetConnstring("hana");
 
-            var contract = TestData.GetContract();
+            var dicTypes = new Dictionary<int, string>();
+            dicTypes.Add(1, "Teste");
+            var currentDate = new DateTime(2019, 1, 1);
+            var contractId = 2;
+            foreach (var item in dicTypes)
+            {
+                conn.Select<ProductSaleReport>(c => c.SaleDate == currentDate && c.RevenueTypeId == item.Key && c.ContractId == contractId).LastOrDefault();
+            }
+            
 
-            var createTableScript = scriptBuilder.GetCreateTableCommand<Contract>();
-            conn.Execute(createTableScript);
-            var id = conn.InsertReturningId<Contract>(contract);
+            //var conn = new Sap.Data.Hana.HanaConnection();
+            //conn.ConnectionString = ConnectionStringReader.GetConnstring("hana");
+            //var scriptBuilder = conn.GetScriptBuild();
 
-            var contracts = conn.Select<Contract>(c=>c.BusinessPartnerName == "MOISÉS J. MIRANDA");
+            //var contract = TestData.GetContract();
 
-            Assert.AreEqual(1, contracts.Count());
-            Assert.AreEqual("MOISÉS J. MIRANDA", contracts.ToList()[0].BusinessPartnerName);
-            conn.Execute("drop table \"Contract\"");
+            //var createTableScript = scriptBuilder.GetCreateTableCommand<Contract>();
+            //conn.Execute(createTableScript);
+            //var id = conn.InsertReturningId<Contract>(contract);
+
+            //var contracts = conn.Select<Contract>(c => c.BusinessPartnerName == "MOISÉS J. MIRANDA" && c.ID==1 && c.TypeContract==0);
+
+            //Assert.AreEqual(1, contracts.Count());
+            //Assert.AreEqual("MOISÉS J. MIRANDA", contracts.ToList()[0].BusinessPartnerName);
+            //conn.Execute("drop table \"Contract\"");
         }
 
         [TestMethod]
@@ -214,7 +227,68 @@ namespace SimpleQuery.Tests
 
             conn.Execute("drop table \"Cliente\"");
         }
-       
+        [TestMethod]
+        public void SapHanaDeleteModel222()
+        {
+            var conn = new Sap.Data.Hana.HanaConnection(ConnectionStringReader.GetConnstring("hana"));
+            var sql = "SELECT * FROM \"@IV_LP_LABELMODEL\"";
+            var result = conn.Query<LabelModel>(sql);
+        }
+
+        [Table("@IV_LP_LABELMODEL")]
+        public class LabelModel
+        {
+            public LabelModel()
+            {
+
+            }
+
+            public string Code { get; set; }
+            public string Name { get; set; }
+            public string U_ZplCode { get; set; }
+            public string U_PrinterName { get; set; }
+            public string U_Query { get; set; }
+            public string U_FieldsName { get; set; }
+
+        }
+
+
+        [Table("IV_C1_ProductSaleReport")]
+        public class ProductSaleReport
+        {
+            public int Id { get; set; }
+
+            public int? ContractId { get; set; }
+
+            [NotMapped]
+            public string CardName { get; set; }
+
+            public int RevenueTypeId { get; set; }
+
+            [NotMapped]
+            public string RevenueTypeDescription { get; set; }
+
+            public DateTime? SaleDate { get; set; }
+
+            public decimal? SaleValue { get; set; } = 0.0m;
+
+            public int? MeasurementId { get; set; }
+
+            public int? MeasurementLineId { get; set; }
+
+            public int? Status { get; set; }
+
+            public DateTime? CreateDate { get; set; }
+
+            public string UserName { get; set; }
+
+            public int? Source { get; set; }
+
+            public int? DocEntryId { get; set; }
+
+            public string FantasyName { get; set; }
+
+        }
     }
    
 }

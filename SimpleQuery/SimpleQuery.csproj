@@ -12,6 +12,7 @@
     <FileVersion>1.0.4.0</FileVersion>
     <PackageId>SimpleQuery.Core</PackageId>
     <Authors>Moisés J. Miranda</Authors>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>

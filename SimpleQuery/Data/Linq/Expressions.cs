@@ -308,7 +308,7 @@ namespace SimpleQuery.Data.Linq
                 }
                 return m;
             }
-            else if (m.Expression.NodeType == ExpressionType.MemberAccess)
+            else if (m.Expression.NodeType == ExpressionType.MemberAccess && m.Member is PropertyInfo)
             {
                 var prop = m.Member as System.Reflection.PropertyInfo;
                 var value = Evaluate(m);
@@ -321,6 +321,19 @@ namespace SimpleQuery.Data.Linq
 
                 return m;
             }
+            else if (m.Expression.NodeType == ExpressionType.MemberAccess && m.Member is System.Reflection.FieldInfo)
+            {
+                var prop = m.Member as FieldInfo;
+                var value = Evaluate(m);
+                if (prop.FieldType.Name == "DateTime")                
+                    sb.Append($"'{Convert.ToDateTime(value).ToString("yyyy-MM-dd HH:mm:ss")}'");                
+                else if (prop.FieldType.Name == "Int32")
+                    sb.Append(value);
+                else if (prop.FieldType.Name == "String")
+                    sb.Append($"'{value}'");
+                return m;
+            }
+
             else if (m.Expression.NodeType == ExpressionType.Constant)
             {
                 var prop = m.Member as System.Reflection.FieldInfo;
