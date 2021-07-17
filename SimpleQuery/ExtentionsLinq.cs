@@ -134,7 +134,7 @@ namespace SimpleQuery
         /// <param name="commandText">Sql command</param>
         /// <returns></returns>
         public static IEnumerable<T> Scalar<T>(this IDbConnection dbConnection, string commandText)
-        where T : struct
+        
 
         {
             var wasClosed = dbConnection.State == ConnectionState.Closed;
