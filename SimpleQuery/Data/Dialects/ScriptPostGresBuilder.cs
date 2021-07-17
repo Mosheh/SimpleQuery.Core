@@ -88,7 +88,7 @@ namespace SimpleQuery.Data.Dialects
 
         private string GetSequenceName(string entityName, string columnName)
         {
-            return $"sequence_{entityName}_{columnName}".ToLower();
+            return $"{entityName}_{columnName}_seq";
         }
 
         public string GetDeleteCommand<T>(T obj, object key) where T : class, new()
@@ -152,7 +152,7 @@ namespace SimpleQuery.Data.Dialects
             var entityName = GetEntityName<T>();
             var propertyKey = GetKeyProperty(model.GetType().GetProperties());
          
-            string scriptSelectCurrentValueId = $"SELECT currval('{GetSequenceName(entityName, propertyKey.Name)}');";
+            string scriptSelectCurrentValueId = $"SELECT currval('\"{GetSequenceName(entityName, propertyKey.Name)}\"');";
             var readerId = ExecuteReader(scriptSelectCurrentValueId, dbConnection);
             if (readerId.Read())
             {
