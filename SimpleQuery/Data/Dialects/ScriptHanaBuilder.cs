@@ -280,7 +280,50 @@ namespace SimpleQuery.Data.Dialects
 
         public Tuple<string, IEnumerable<DbSimpleParameter>> GetInsertCommandParameters<T>(T obj, bool includeKey = false) where T : class, new()
         {
-            throw new NotImplementedException();
+            
+            List<DbSimpleParameter> parameters = new List<DbSimpleParameter>();
+            var allProperties = ScriptCommon.GetValidProperty<T>();
+            var entityName = GetEntityName<T>();
+
+            var keyName = GetKeyProperty(allProperties);
+            if (keyName == null && includeKey)
+                throw new Exception($"Key column not found for {entityName}");
+
+            var strBuilderSql = new StringBuilder($"insert into \"{entityName}\" (");
+            foreach (var item in allProperties)
+            {
+                if (keyName == item && !includeKey)
+                    continue;
+
+                strBuilderSql.Append($"\"{item.Name}\"");
+
+                if (item != allProperties.Last())
+                    strBuilderSql.Append(", ");
+                else
+                    strBuilderSql.Append(") values (");
+            }
+
+            foreach (var item in allProperties)
+            {
+                if (keyName == item && !includeKey)
+                    continue;
+
+                string paramName = $"@{item.Name}";
+                strBuilderSql.Append(paramName);
+                parameters.Add(new DbSimpleParameter(
+                    paramName, GetParamType(item),11, DataFormatter.GetValue(item, obj, this.DbServerType)));
+                    
+
+                if (item != allProperties.Last())
+                    strBuilderSql.Append(", ");
+                else
+                    strBuilderSql.Append(")");
+            }
+
+            var sql = strBuilderSql.ToString();
+            Tuple<string, IEnumerable<DbSimpleParameter>> result = 
+                new Tuple<string, IEnumerable<DbSimpleParameter>>(sql, parameters);
+            return result;
         }
 
         public string GetUpdateCommandParameters<T>(T obj) where T : class, new()

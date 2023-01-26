@@ -28,6 +28,18 @@ namespace SimpleQuery.Tests
 
             Assert.AreEqual(resultadoEsperado, sqlDelete);
         }
+        [TestMethod]
+        public void TestHanaInsertUsingParamsScript()
+        {
+            IScriptBuilder builder = new ScriptHanaBuilder();
+
+            var cliente = new Cliente() { Id = 1, Nome = "Moisés", Ativo = true };
+
+            var script = builder.GetInsertCommandParameters<Cliente>(cliente);
+            var resultadoEsperado = "insert into \"Cliente\" (\"Nome\", \"Ativo\", \"TotalPedidos\", \"ValorTotalNotasFiscais\", \"Credito\", \"UltimoValorDeCompra\") values (@Nome, @Ativo, @TotalPedidos, @ValorTotalNotasFiscais, @Credito, @UltimoValorDeCompra)";
+
+            Assert.AreEqual(resultadoEsperado, script.Item1, false);
+        }
 
         [TestMethod]
         public void TestInsertOperationWithAttributeTableHana()
