@@ -366,6 +366,7 @@ namespace SimpleQuery
             if (value is DBNull)
             {
                 if (conversion.AssemblyQualifiedName.Contains("System.DateTime") ||
+                    conversion.AssemblyQualifiedName.Contains("System.Int16") ||
                     conversion.AssemblyQualifiedName.Contains("System.Int32") ||
                     conversion.AssemblyQualifiedName.Contains("System.Int64") ||
                     conversion.AssemblyQualifiedName.Contains("System.Decimal") ||

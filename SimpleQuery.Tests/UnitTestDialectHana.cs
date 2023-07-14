@@ -530,5 +530,7 @@ namespace SimpleQuery.Tests
             [NotMapped] public bool SapMultiBranchEnabled { get; set; }
 
         }
+
+      
     }
 }

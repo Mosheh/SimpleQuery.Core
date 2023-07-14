@@ -8,8 +8,8 @@
     <Description>Simple Query. ORM Very Easy to use. All CRUD operations. Dapper and ORM in the same place</Description>
     <PackageTags>micro-orm, ORM very small, Simple Query for SAP Hana, Sql Server, MySql, SQLite, PostGres</PackageTags>
     <PackageIcon>Simple-Query.png</PackageIcon>
-    <AssemblyVersion>1.0.7.1</AssemblyVersion>
-    <FileVersion>1.0.7.1</FileVersion>
+    <AssemblyVersion>1.0.7.2</AssemblyVersion>
+    <FileVersion>1.0.7.2</FileVersion>
     <PackageId>SimpleQuery.Core</PackageId>
     <Authors>Moisés J. Miranda</Authors>
     <Platforms>AnyCPU;x64</Platforms>
