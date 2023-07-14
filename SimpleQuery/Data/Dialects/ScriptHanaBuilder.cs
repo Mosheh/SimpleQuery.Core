@@ -308,7 +308,7 @@ namespace SimpleQuery.Data.Dialects
                 if (keyName == item && !includeKey)
                     continue;
 
-                string paramName = $"@{item.Name}";
+                string paramName = $":{item.Name}";
                 strBuilderSql.Append(paramName);
                 parameters.Add(new DbSimpleParameter(
                     paramName, GetParamType(item),11, DataFormatter.GetValue(item, obj, this.DbServerType)));
