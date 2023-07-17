@@ -2,16 +2,17 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.0.7.1</Version>
+    <Version>1.0.8.0</Version>
     <PackageProjectUrl>https://github.com/Mosheh/SimpleQuery</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Mosheh/SimpleQuery</RepositoryUrl>
     <Description>Simple Query. ORM Very Easy to use. All CRUD operations. Dapper and ORM in the same place</Description>
     <PackageTags>micro-orm, ORM very small, Simple Query for SAP Hana, Sql Server, MySql, SQLite, PostGres</PackageTags>
     <PackageIcon>Simple-Query.png</PackageIcon>
-    <AssemblyVersion>1.0.7.2</AssemblyVersion>
-    <FileVersion>1.0.7.2</FileVersion>
+    <AssemblyVersion>1.0.8.0</AssemblyVersion>
+    <FileVersion>1.0.8.0</FileVersion>
     <PackageId>SimpleQuery.Core</PackageId>
     <Authors>Moisés J. Miranda</Authors>
+    <Company>Imagine Software</Company>
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
@@ -20,14 +21,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Simple-Query.png">
+    <None Include="..\img\Simple-Query.png">
       <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
-    <None Include="Simple-Query.png">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
+      <PackagePath>\</PackagePath>
+    </None>   
   </ItemGroup>
 
 </Project>
