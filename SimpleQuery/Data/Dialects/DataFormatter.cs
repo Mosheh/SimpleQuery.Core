@@ -36,7 +36,7 @@ namespace SimpleQuery.Data.Dialects
                     else
                         return $"'{value.ToString().Replace("'", "''")}'";
                 case "Boolean":
-                    if (dbServerType == DbServerType.Hana || dbServerType == DbServerType.PostGres)
+                    if (dbServerType == DbServerType.PostGres)
                         return ((bool)item.GetValue(obj)) == true ? "true" : "false";
                     else
                         return ((bool)item.GetValue(obj)) == true ? "1" : "0";
